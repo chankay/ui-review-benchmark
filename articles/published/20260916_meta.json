@@ -1,10 +1,12 @@
 {
-  "title": "实测 Seed-2.1-pro 做 UI 验收：换个提问方式，检出率 43%→70%",
+  "title": "实测 Seed-2.1-pro 做 UI 验收：一套 checklist harness，把检出率从 43% 拉到 70%",
   "media_id": "cONG5hSyrclOapu1Wclf4aRWx5J8wzGmFpbeFZuIFDRrLmcAx41pGiIdgFejiUMn",
   "thumb_media_id": "cONG5hSyrclOapu1Wclf4eMdddv5w6oLjzBpog4JuJcc3bqLoK8wYHT2zT-wnKwd",
   "theme": "cyan",
   "images_uploaded": 9,
   "digest": "同一模型同一素材，只改提问方式检出率43%→70%，零误报，还抓到了我埋的雷。附完整素材与脚本",
   "created_at": "2026-09-16T11:35:00+08:00",
-  "cover": "wechat-media/cover-v2.jpg (合成版：标题+43→70数字对比+页面VS缩略图)"
+  "cover": "wechat-media/cover-v2.jpg (合成版：标题+43→70数字对比+页面VS缩略图)",
+  "author": "张量叙事",
+  "note": "正文不含标题行；引用块 #N 改为 Issue N 避免被转成 h1"
 }
