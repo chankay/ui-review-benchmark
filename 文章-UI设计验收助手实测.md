@@ -2,7 +2,8 @@
 
 > 测评对象：Doubao-Seed-2.1-pro-0915（经 Seed-Evolving API 测试，两者当前版本能力一致）
 > 测评场景：UI 设计验收——设计稿 vs 开发实现截图的视觉差异识别、定位标注、修复闭环
-> 测评时间：2026-09-16 | 全部数据来自真实 API 调用，原始 JSON 输出已存档
+> 测评时间：2026-09-16 | 全部数据来自真实 API 调用
+> 素材与脚本：[github.com/chankay/ui-review-benchmark](https://github.com/chankay/ui-review-benchmark)
 
 ## 一、为什么测这个场景
 
@@ -133,4 +134,4 @@
 
 ---
 
-测评素材、全部脚本和原始 JSON 输出都在我这，想复现的可以来拿。
+测评素材、全部脚本和原始 JSON 输出都在：[github.com/chankay/ui-review-benchmark](https://github.com/chankay/ui-review-benchmark)，欢迎复现。
