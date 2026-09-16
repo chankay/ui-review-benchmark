@@ -1,0 +1,116 @@
+{
+  "parsed": {
+    "summary": "实现稿与设计稿存在多处明显及阻断性偏差，包括主按钮品牌色错误、状态标签缺失、列表分隔线缺失、按钮圆角错误以及辅助文字颜色过浅，整体视觉还原度不达标，不予通过。",
+    "verdict": "fail",
+    "checklist_results": [
+      {
+        "area": "页头区",
+        "conclusion": "存在偏差"
+      },
+      {
+        "area": "第一张卡片",
+        "conclusion": "存在偏差"
+      },
+      {
+        "area": "第二张卡片",
+        "conclusion": "存在偏差"
+      },
+      {
+        "area": "整体",
+        "conclusion": "存在偏差"
+      }
+    ],
+    "issues": [
+      {
+        "id": 1,
+        "type": "色彩偏差",
+        "component": "第一张卡片 / 主按钮",
+        "design": "主按钮背景为品牌主色（深紫色）",
+        "impl": "主按钮背景变为亮蓝色",
+        "severity": "P0",
+        "color_design": "#534AB7",
+        "color_impl": "#3B82F6",
+        "fix_suggestion": "将主按钮背景色修改为规范规定的品牌主色 #534AB7。"
+      },
+      {
+        "id": 2,
+        "type": "元素缺失",
+        "component": "第一张卡片 / 标题右侧状态标签",
+        "design": "标题右侧存在「进行中」胶囊状态标签，文字为紫色，底色为浅紫色，圆角999px",
+        "impl": "标题右侧无任何状态标签，元素完全缺失",
+        "severity": "P1",
+        "color_design": "#534AB7（文字）/#ECEAFC（底色）",
+        "color_impl": "null",
+        "fix_suggestion": "在「成员概览」标题右侧补充「进行中」胶囊标签，采用浅紫底 #ECEAFC、紫色文字 #534AB7，圆角 999px。"
+      },
+      {
+        "id": 3,
+        "type": "描边丢失",
+        "component": "第一张卡片 / 三行列表",
+        "design": "三行列表之间存在两条 1px 浅灰色分隔线",
+        "impl": "列表行之间无任何分隔线，行间距直接留白",
+        "severity": "P1",
+        "color_design": "#E5E5EA",
+        "color_impl": "null",
+        "fix_suggestion": "在「已激活成员」与「待邀请」、「待邀请」与「管理员」之间补充 1px 分隔线，颜色使用 #E5E5EA。"
+      },
+      {
+        "id": 4,
+        "type": "圆角偏差",
+        "component": "第一张卡片 / 主按钮",
+        "design": "按钮圆角为 8px（标准圆角矩形）",
+        "impl": "按钮圆角过大，呈现为完全胶囊状（约 999px）",
+        "severity": "P1",
+        "color_design": "null",
+        "color_impl": "null",
+        "fix_suggestion": "将主按钮圆角从胶囊形调整为设计规范规定的 8px。"
+      },
+      {
+        "id": 5,
+        "type": "对比度不足",
+        "component": "页头区 / 副标题",
+        "design": "副标题颜色为规范弱提示文字色，深浅适中可读",
+        "impl": "副标题颜色明显偏浅、发灰，对比度低于设计稿且违反规范最浅色值限制",
+        "severity": "P2",
+        "color_design": "#86868B",
+        "color_impl": "#B5B5BA",
+        "fix_suggestion": "将页头副标题文字颜色调整为 #86868B，确保不弱于规范规定的最浅可读层级。"
+      },
+      {
+        "id": 6,
+        "type": "对比度不足",
+        "component": "第二张卡片 / 表单下方提示文字",
+        "design": "提示文字为规范弱提示文字色",
+        "impl": "提示文字颜色偏浅，对比度低于设计稿",
+        "severity": "P2",
+        "color_design": "#86868B",
+        "color_impl": "#A0A0A5",
+        "fix_suggestion": "将提示文字「过期后链接自动失效，需重新生成」颜色调整为 #86868B。"
+      }
+    ],
+    "not_found_areas": [
+      "页头标题「项目空间」的字号、字重与颜色",
+      "第一张卡片标题「成员概览」的字重与字号",
+      "第一张卡片三行列表的文字内容、主文字色值及数值右对齐方式",
+      "主按钮「邀请新成员」的文字内容与白色字色",
+      "第二张卡片标题「邀请设置」样式",
+      "第二张卡片表单标签「邀请链接有效期」样式",
+      "输入框当前值「7 天」及边框样式",
+      "两张卡片的圆角、卡片间距及卡片内边距"
+    ],
+    "confidence_note": "报告中的色值为根据截图肉眼比对的近似值，建议开发使用取色器对照设计规范进行精确校准。"
+  },
+  "usage": {
+    "completion_tokens": 3015,
+    "prompt_tokens": 4160,
+    "total_tokens": 7175,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1761
+    }
+  },
+  "elapsed": 62.5,
+  "raw": "{\n  \"summary\": \"实现稿与设计稿存在多处明显及阻断性偏差，包括主按钮品牌色错误、状态标签缺失、列表分隔线缺失、按钮圆角错误以及辅助文字颜色过浅，整体视觉还原度不达标，不予通过。\",\n  \"verdict\": \"fail\",\n  \"checklist_results\": [\n    {\"area\": \"页头区\", \"conclusion\": \"存在偏差\"},\n    {\"area\": \"第一张卡片\", \"conclusion\": \"存在偏差\"},\n    {\"area\": \"第二张卡片\", \"conclusion\": \"存在偏差\"},\n    {\"area\": \"整体\", \"conclusion\": \"存在偏差\"}\n  ],\n  \"issues\": [\n    {\n      \"id\": 1,\n      \"type\": \"色彩偏差\",\n      \"component\": \"第一张卡片 / 主按钮\",\n      \"design\": \"主按钮背景为品牌主色（深紫色）\",\n      \"impl\": \"主按钮背景变为亮蓝色\",\n      \"severity\": \"P0\",\n      \"color_design\": \"#534AB7\",\n      \"color_impl\": \"#3B82F6\",\n      \"fix_suggestion\": \"将主按钮背景色修改为规范规定的品牌主色 #534AB7。\"\n    },\n    {\n      \"id\": 2,\n      \"type\": \"元素缺失\",\n      \"component\": \"第一张卡片 / 标题右侧状态标签\",\n      \"design\": \"标题右侧存在「进行中」胶囊状态标签，文字为紫色，底色为浅紫色，圆角999px\",\n      \"impl\": \"标题右侧无任何状态标签，元素完全缺失\",\n      \"severity\": \"P1\",\n      \"color_design\": \"#534AB7（文字）/#ECEAFC（底色）\",\n      \"color_impl\": \"null\",\n      \"fix_suggestion\": \"在「成员概览」标题右侧补充「进行中」胶囊标签，采用浅紫底 #ECEAFC、紫色文字 #534AB7，圆角 999px。\"\n    },\n    {\n      \"id\": 3,\n      \"type\": \"描边丢失\",\n      \"component\": \"第一张卡片 / 三行列表\",\n      \"design\": \"三行列表之间存在两条 1px 浅灰色分隔线\",\n      \"impl\": \"列表行之间无任何分隔线，行间距直接留白\",\n      \"severity\": \"P1\",\n      \"color_design\": \"#E5E5EA\",\n      \"color_impl\": \"null\",\n      \"fix_suggestion\": \"在「已激活成员」与「待邀请」、「待邀请」与「管理员」之间补充 1px 分隔线，颜色使用 #E5E5EA。\"\n    },\n    {\n      \"id\": 4,\n      \"type\": \"圆角偏差\",\n      \"component\": \"第一张卡片 / 主按钮\",\n      \"design\": \"按钮圆角为 8px（标准圆角矩形）\",\n      \"impl\": \"按钮圆角过大，呈现为完全胶囊状（约 999px）\",\n      \"severity\": \"P1\",\n      \"color_design\": \"null\",\n      \"color_impl\": \"null\",\n      \"fix_suggestion\": \"将主按钮圆角从胶囊形调整为设计规范规定的 8px。\"\n    },\n    {\n      \"id\": 5,\n      \"type\": \"对比度不足\",\n      \"component\": \"页头区 / 副标题\",\n      \"design\": \"副标题颜色为规范弱提示文字色，深浅适中可读\",\n      \"impl\": \"副标题颜色明显偏浅、发灰，对比度低于设计稿且违反规范最浅色值限制\",\n      \"severity\": \"P2\",\n      \"color_design\": \"#86868B\",\n      \"color_impl\": \"#B5B5BA\",\n      \"fix_suggestion\": \"将页头副标题文字颜色调整为 #86868B，确保不弱于规范规定的最浅可读层级。\"\n    },\n    {\n      \"id\": 6,\n      \"type\": \"对比度不足\",\n      \"component\": \"第二张卡片 / 表单下方提示文字\",\n      \"design\": \"提示文字为规范弱提示文字色\",\n      \"impl\": \"提示文字颜色偏浅，对比度低于设计稿\",\n      \"severity\": \"P2\",\n      \"color_design\": \"#86868B\",\n      \"color_impl\": \"#A0A0A5\",\n      \"fix_suggestion\": \"将提示文字「过期后链接自动失效，需重新生成」颜色调整为 #86868B。\"\n    }\n  ],\n  \"not_found_areas\": [\n    \"页头标题「项目空间」的字号、字重与颜色\",\n    \"第一张卡片标题「成员概览」的字重与字号\",\n    \"第一张卡片三行列表的文字内容、主文字色值及数值右对齐方式\",\n    \"主按钮「邀请新成员」的文字内容与白色字色\",\n    \"第二张卡片标题「邀请设置」样式\",\n    \"第二张卡片表单标签「邀请链接有效期」样式\",\n    \"输入框当前值「7 天」及边框样式\",\n    \"两张卡片的圆角、卡片间距及卡片内边距\"\n  ],\n  \"confidence_note\": \"报告中的色值为根据截图肉眼比对的近似值，建议开发使用取色器对照设计规范进行精确校准。\"\n}"
+}

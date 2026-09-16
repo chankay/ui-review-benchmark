@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>UI 验收测试素材 Demo — 设计稿 vs 实现</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", sans-serif; background: #F5F5F7; padding: 32px; color: #1D1D1F; }
+  h1 { font-size: 20px; margin-bottom: 8px; }
+  .desc { font-size: 13px; color: #6E6E73; margin-bottom: 24px; }
+  .stage { display: flex; gap: 40px; }
+  .panel { width: 480px; }
+  .panel-label { font-size: 14px; font-weight: 600; margin-bottom: 10px; padding: 8px 12px; border-radius: 8px; display: inline-block; }
+  .label-design { background: #E8F5E9; color: #2E7D32; }
+  .label-impl { background: #FDECEA; color: #C0392B; }
+  .frame { width: 480px; border: 1px solid #D2D2D7; border-radius: 12px; overflow: hidden; background: #FFFFFF; }
+
+  /* ===== 设计稿基准样式 ===== */
+  .app-header { padding: 20px 24px; border-bottom: 1px solid #EEEEF0; }
+  .app-title { font-size: 18px; font-weight: 600; color: #1D1D1F; }
+  .app-subtitle { font-size: 13px; color: #86868B; margin-top: 4px; line-height: 1.5; }
+
+  .card { margin: 24px; padding: 24px; border: 1px solid #E5E5EA; border-radius: 12px; }
+  .card-title { font-size: 15px; font-weight: 600; color: #1D1D1F; display: flex; align-items: center; gap: 8px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: #EEEDFE; color: #534AB7; font-weight: 500; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
+  .row + .row { border-top: 1px solid #F0F0F2; }
+  .row-name { font-size: 14px; color: #3A3A3C; }
+  .row-value { font-size: 14px; font-weight: 500; color: #1D1D1F; }
+  .btn-primary { width: 100%; margin-top: 16px; padding: 12px; background: #534AB7; color: #FFFFFF; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; }
+
+  .form-item { margin-bottom: 16px; }
+  .form-label { font-size: 13px; color: #6E6E73; margin-bottom: 6px; }
+  .form-input { width: 100%; padding: 10px 12px; border: 1px solid #D2D2D7; border-radius: 8px; font-size: 14px; color: #1D1D1F; }
+  .form-input:focus { outline: none; border-color: #534AB7; box-shadow: 0 0 0 3px rgba(83,74,183,0.15); }
+  .form-hint { font-size: 12px; color: #86868B; margin-top: 6px; }
+
+  /* ===== 实现版：埋 8 处偏差 ===== */
+  /* 偏差1 [P0] 品牌主色偏移：#534AB7 → #3B82F6 */
+  /* 偏差2 [P1] 主按钮圆角：8px → 20px */
+  .impl .btn-primary { width: 100%; margin-top: 16px; padding: 12px; background: #3B82F6; color: #FFFFFF; border: none; border-radius: 20px; font-size: 14px; font-weight: 500; cursor: pointer; }
+  /* 偏差3 [P1] 标题字重：600 → 400 */
+  .impl .app-title { font-size: 18px; font-weight: 400; color: #1D1D1F; }
+  /* 偏差4 [P1] 卡片内边距：24px → 12px（间距压缩） */
+  .impl .card { margin: 24px; padding: 12px; border: 1px solid #E5E5EA; border-radius: 12px; }
+  /* 偏差5 [P2] 副标题对比度不足：#86868B → #C7C7CC */
+  .impl .app-subtitle { font-size: 13px; color: #C7C7CC; margin-top: 4px; line-height: 1.5; }
+  /* 偏差6 [P2] 列表分隔线丢失 */
+  .impl .row + .row { border-top: none; }
+  /* 偏差7 [P1] 状态徽标缺失（设计稿有 "进行中" badge） */
+  .impl .badge { display: none; }
+  /* 偏差8 [P2] 输入框 focus 描边颜色错误：品牌紫 → 红色 */
+  .impl .form-input:focus { outline: none; border-color: #E24B4A; box-shadow: 0 0 0 3px rgba(226,75,74,0.15); }
+
+  /* ===== 答案区 ===== */
+  details { margin-top: 32px; max-width: 1000px; background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 12px; padding: 20px 24px; }
+  summary { font-size: 15px; font-weight: 600; cursor: pointer; }
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #F0F0F2; }
+  th { color: #6E6E73; font-weight: 500; }
+  .p0 { color: #C0392B; font-weight: 600; }
+  .p1 { color: #BA7517; font-weight: 600; }
+  .p2 { color: #5F5E5A; font-weight: 600; }
+  .tip { margin-top: 16px; font-size: 13px; color: #6E6E73; background: #F5F5F7; border-radius: 8px; padding: 12px 16px; line-height: 1.6; }
+</style>
+<style id="hotfix">
+.member-overview-card .primary-button { background-color: #534AB7 !important; }
+.member-overview-card__title::after { content: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='64'%20height='24'%3E%3Ctitle%3E%E8%BF%9B%E8%A1%8C%E4%B8%AD%3C/title%3E%3Crect%20x='8'%20width='56'%20height='24'%20rx='999'%20fill='%23ECEAFC'/%3E%3Ctext%20x='36'%20y='16'%20text-anchor='middle'%20font-family='sans-serif'%20font-size='12'%20fill='%23534AB7'%3E%E8%BF%9B%E8%A1%8C%E4%B8%AD%3C/text%3E%3C/svg%3E") !important; }
+.member-overview-card__list-item + .member-overview-card__list-item { border-top: 1px solid #E5E5EA !important; }
+.page-header__subtitle { color: #86868B !important; }
+.invite-card .form-tip { color: #86868B !important; }
+</style>
+</head>
+<body>
+  <h1>UI 设计验收 — 测试素材 Demo</h1>
+  <p class="desc">左右两个面板分别截图后即可作为 VLM 输入。实现版埋了 8 处偏差，答案在页面底部（默认折叠，防止测试时"偷看"）。</p>
+
+  <div class="stage">
+    <!-- 设计稿（基准） -->
+    <div class="panel">
+      <span class="panel-label label-design">设计稿（Figma 导出 · 基准）</span>
+      <div class="frame design" id="design">
+        <div class="app-header">
+          <div class="app-title">项目空间</div>
+          <div class="app-subtitle">管理团队成员与协作权限，变更将实时同步至所有协作者。</div>
+        </div>
+        <div class="card">
+          <div class="card-title">成员概览 <span class="badge">进行中</span></div>
+          <div class="row"><span class="row-name">已激活成员</span><span class="row-value">128 人</span></div>
+          <div class="row"><span class="row-name">待邀请</span><span class="row-value">6 人</span></div>
+          <div class="row"><span class="row-name">管理员</span><span class="row-value">3 人</span></div>
+          <button class="btn-primary">邀请新成员</button>
+        </div>
+        <div class="card">
+          <div class="card-title">邀请设置</div>
+          <div class="form-item">
+            <div class="form-label">邀请链接有效期</div>
+            <input class="form-input" value="7 天">
+            <div class="form-hint">过期后链接自动失效，需重新生成</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 实现版（埋偏差） -->
+    <div class="panel">
+      <span class="panel-label label-impl">开发实现（截图 · 待验收）</span>
+      <div class="frame impl" id="impl">
+        <div class="app-header">
+          <div class="app-title">项目空间</div>
+          <div class="app-subtitle">管理团队成员与协作权限，变更将实时同步至所有协作者。</div>
+        </div>
+        <div class="card">
+          <div class="card-title">成员概览</div>
+          <div class="row"><span class="row-name">已激活成员</span><span class="row-value">128 人</span></div>
+          <div class="row"><span class="row-name">待邀请</span><span class="row-value">6 人</span></div>
+          <div class="row"><span class="row-name">管理员</span><span class="row-value">3 人</span></div>
+          <button class="btn-primary">邀请新成员</button>
+        </div>
+        <div class="card">
+          <div class="card-title">邀请设置</div>
+          <div class="form-item">
+            <div class="form-label">邀请链接有效期</div>
+            <input class="form-input" value="7 天">
+            <div class="form-hint">过期后链接自动失效，需重新生成</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <details>
+    <summary>埋点答案（点击展开 — 共 8 处偏差）</summary>
+    <table>
+      <tr><th>#</th><th>严重度</th><th>偏差类型</th><th>位置</th><th>设计稿</th><th>实现</th></tr>
+      <tr><td>1</td><td class="p0">P0</td><td>品牌色偏移</td><td>主按钮背景色</td><td>#534AB7 紫</td><td>#3B82F6 蓝</td></tr>
+      <tr><td>2</td><td class="p1">P1</td><td>形状不一致</td><td>主按钮圆角</td><td>8px</td><td>20px</td></tr>
+      <tr><td>3</td><td class="p1">P1</td><td>字重错误</td><td>页面标题</td><td>600 SemiBold</td><td>400 Regular</td></tr>
+      <tr><td>4</td><td class="p1">P1</td><td>间距压缩</td><td>卡片内边距</td><td>24px</td><td>12px</td></tr>
+      <tr><td>5</td><td class="p2">P2</td><td>对比度不足</td><td>副标题文字色</td><td>#86868B</td><td>#C7C7CC</td></tr>
+      <tr><td>6</td><td class="p2">P2</td><td>分隔线丢失</td><td>成员列表行间</td><td>有 1px 分隔线</td><td>无</td></tr>
+      <tr><td>7</td><td class="p1">P1</td><td>元素缺失</td><td>卡片标题旁</td><td>有「进行中」badge</td><td>无</td></tr>
+      <tr><td>8</td><td class="p2">P2</td><td>交互态颜色错误</td><td>输入框 focus 描边</td><td>品牌紫</td><td>红色</td></tr>
+    </table>
+    <div class="tip">
+      使用建议：① 用浏览器截图工具分别截取左右两个 frame（480px 宽）；② 连同设计规范文字一起喂给模型；③
+      「几乎无差异」对照组做法：把实现版 HTML 的偏差注释逐条去掉重新截图即可；④ focus 态偏差需要模拟聚焦后截图（可在浏览器里点击输入框再截图）。
+    </div>
+  </details>
+</body>
+</html>

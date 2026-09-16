@@ -1,0 +1,47 @@
+{
+  "recheck": {
+    "recheck_summary": "经对照修复后截图逐项复核，上轮验收报告提出的全部6项UI问题均未完成整改，对应问题表现和修复前完全一致无改善，同时新出现输入框异常红色错误样式的偏差，整体不符合设计验收要求",
+    "verdict": "fail",
+    "fixed": [],
+    "unfixed": [
+      {
+        "issue_id": 1,
+        "verified": false,
+        "evidence": "「邀请新成员」主按钮背景仍为亮蓝色#3B82F6，未修改为规范要求的品牌深紫色#534AB7"
+      },
+      {
+        "issue_id": 2,
+        "verified": false,
+        "evidence": "「成员概览」标题右侧仍无「进行中」胶囊状态标签，元素处于完全缺失状态"
+      },
+      {
+        "issue_id": 3,
+        "verified": false,
+        "evidence": "三行成员统计数据的行与行之间仍无#E5E5EA色的1px浅灰分隔线，仅保留空白间距"
+      },
+      {
+        "issue_id": 4,
+        "verified": false,
+        "evidence": "「邀请新成员」主按钮仍为圆角999px的完全胶囊样式，未调整为规范要求的8px标准圆角"
+      },
+      {
+        "issue_id": 5,
+        "verified": false,
+        "evidence": "页头区副标题文字仍为偏浅发灰的色值，未调整为要求的#86868B，对比度不足问题仍存在"
+      },
+      {
+        "issue_id": 6,
+        "verified": false,
+        "evidence": "邀请设置卡片表单下方的提示文字仍为偏浅灰色，未调整为要求的#86868B，对比度不足问题仍存在"
+      }
+    ],
+    "regressions": [
+      {
+        "description": "邀请链接有效期输入框出现设计未定义的红色错误描边，外侧还附带淡红色柔光光晕，属于不符合设计的异常错误状态样式",
+        "severity": "P2"
+      }
+    ]
+  },
+  "tokens": 4914,
+  "elapsed": 58.3
+}

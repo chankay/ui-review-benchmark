@@ -1,0 +1,144 @@
+{
+  "parsed": {
+    "summary": "页面存在2项P0阻断级问题（品牌选中色错误、底部安全区留白不足），同时存在6项P1视觉还原偏差，未达到设计验收标准",
+    "verdict": "fail",
+    "checklist_results": [
+      {
+        "area": "状态栏与导航栏",
+        "conclusion": "一致"
+      },
+      {
+        "area": "第一张订单卡",
+        "conclusion": "存在偏差"
+      },
+      {
+        "area": "第二张订单卡",
+        "conclusion": "存在偏差"
+      },
+      {
+        "area": "卡片（圆角/内边距/间距）",
+        "conclusion": "存在偏差"
+      },
+      {
+        "area": "底部Tab栏",
+        "conclusion": "存在偏差"
+      },
+      {
+        "area": "全局可点击元素触控热区",
+        "conclusion": "一致"
+      }
+    ],
+    "issues": [
+      {
+        "id": 1,
+        "type": "色彩偏差",
+        "component": "第一张订单卡-「已完成」状态标签",
+        "design": "已完成状态为绿色系成功文字，右对齐",
+        "impl": "已完成状态为灰色普通文字，右对齐",
+        "severity": "P1",
+        "color_design": "#30B15C",
+        "color_impl": "#86868B",
+        "fix_suggestion": "将「已完成」文字颜色修改为设计指定的成功绿色#30B15C"
+      },
+      {
+        "id": 2,
+        "type": "色彩偏差",
+        "component": "第一张订单卡-商品图容器",
+        "design": "容器为浅紫色实底、无描边、12px圆角",
+        "impl": "容器为白色底、带灰色虚线描边、12px圆角",
+        "severity": "P1",
+        "color_design": "#ECEBFC",
+        "color_impl": "底色#FFFFFF，描边#D1D1D6",
+        "fix_suggestion": "移除容器虚线描边，将容器底色修改为浅紫色#ECEBFC，保留现有圆角规格"
+      },
+      {
+        "id": 3,
+        "type": "字重错误",
+        "component": "第一张订单卡-底部实付金额",
+        "design": "实付金额¥1,299为15px/600字重、主文字黑色",
+        "impl": "实付金额¥1,299为15px/400字重、次要文字灰色",
+        "severity": "P1",
+        "color_design": "#1D1D1F",
+        "color_impl": "#6E6E73",
+        "fix_suggestion": "将实付金额字重调整为600，颜色修改为主文字色#1D1D1F，与前方辅助说明文字拉开层级"
+      },
+      {
+        "id": 4,
+        "type": "色彩偏差",
+        "component": "第二张订单卡-商品图容器",
+        "design": "容器为浅紫色实底、无描边、12px圆角",
+        "impl": "容器为白色底、带灰色虚线描边、12px圆角",
+        "severity": "P1",
+        "color_design": "#ECEBFC",
+        "color_impl": "底色#FFFFFF，描边#D1D1D6",
+        "fix_suggestion": "移除容器虚线描边，将容器底色修改为浅紫色#ECEBFC，保留现有圆角规格"
+      },
+      {
+        "id": 5,
+        "type": "字重错误",
+        "component": "第二张订单卡-底部实付金额",
+        "design": "实付金额¥499为15px/600字重、主文字黑色",
+        "impl": "实付金额¥499为15px/400字重、次要文字灰色",
+        "severity": "P1",
+        "color_design": "#1D1D1F",
+        "color_impl": "#6E6E73",
+        "fix_suggestion": "将实付金额字重调整为600，颜色修改为主文字色#1D1D1F，与前方辅助说明文字拉开层级"
+      },
+      {
+        "id": 6,
+        "type": "圆角偏差",
+        "component": "全局订单卡片",
+        "design": "订单卡片圆角为12px",
+        "impl": "订单卡片圆角约为6px，弧度小于设计",
+        "severity": "P1",
+        "color_design": null,
+        "color_impl": null,
+        "fix_suggestion": "将所有订单卡片的圆角统一调整为设计要求的12px"
+      },
+      {
+        "id": 7,
+        "type": "色彩偏差",
+        "component": "底部Tab栏-选中态「首页」项",
+        "design": "选中态图标、文字为品牌主紫色",
+        "impl": "选中态图标、文字为亮蓝色",
+        "severity": "P0",
+        "color_design": "#534AB7",
+        "color_impl": "#3A86FF",
+        "fix_suggestion": "将选中态首页图标、文字颜色统一修改为品牌主色#534AB7"
+      },
+      {
+        "id": 8,
+        "type": "安全区问题",
+        "component": "底部Tab栏",
+        "design": "Tab文字底部距屏幕底边有约34px全面屏安全留白，无紧贴问题",
+        "impl": "Tab文字底部距屏幕底边仅约12px留白，安全区留白不足",
+        "severity": "P0",
+        "color_design": null,
+        "color_impl": null,
+        "fix_suggestion": "调整Tab栏底部布局，增加不小于34px的全面屏安全区留白，避免内容紧贴屏幕底边"
+      }
+    ],
+    "not_found_areas": [
+      "状态栏时间/网络标识、导航栏返回箭头尺寸、页面标题「我的订单」内容与样式完全一致",
+      "第一张订单卡的订单号、商品名称/规格文字、右上角单价样式、「申请开票」按钮样式无差异",
+      "第二张订单卡的「待收货」状态标签颜色、订单号、商品名称/规格文字、右上角单价样式、「查看物流」按钮样式无差异",
+      "订单卡片内边距、两张卡片之间的间距无差异",
+      "底部Tab栏的图标/文字内容、布局结构、未选中项颜色无差异",
+      "所有可点击元素（返回按钮、操作按钮、Tab项）的触控热区均不小于44x44pt，符合触控要求"
+    ],
+    "confidence_note": "所有差异均为截图明确可见的还原偏差，无模糊不确定项"
+  },
+  "usage": {
+    "completion_tokens": 7479,
+    "prompt_tokens": 4245,
+    "total_tokens": 11724,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5861
+    }
+  },
+  "elapsed": 174.6,
+  "raw": "{\n    \"summary\": \"页面存在2项P0阻断级问题（品牌选中色错误、底部安全区留白不足），同时存在6项P1视觉还原偏差，未达到设计验收标准\",\n    \"verdict\": \"fail\",\n    \"checklist_results\": [\n        {\"area\": \"状态栏与导航栏\", \"conclusion\": \"一致\"},\n        {\"area\": \"第一张订单卡\", \"conclusion\": \"存在偏差\"},\n        {\"area\": \"第二张订单卡\", \"conclusion\": \"存在偏差\"},\n        {\"area\": \"卡片（圆角/内边距/间距）\", \"conclusion\": \"存在偏差\"},\n        {\"area\": \"底部Tab栏\", \"conclusion\": \"存在偏差\"},\n        {\"area\": \"全局可点击元素触控热区\", \"conclusion\": \"一致\"}\n    ],\n    \"issues\": [\n        {\n            \"id\": 1,\n            \"type\": \"色彩偏差\",\n            \"component\": \"第一张订单卡-「已完成」状态标签\",\n            \"design\": \"已完成状态为绿色系成功文字，右对齐\",\n            \"impl\": \"已完成状态为灰色普通文字，右对齐\",\n            \"severity\": \"P1\",\n            \"color_design\": \"#30B15C\",\n            \"color_impl\": \"#86868B\",\n            \"fix_suggestion\": \"将「已完成」文字颜色修改为设计指定的成功绿色#30B15C\"\n        },\n        {\n            \"id\": 2,\n            \"type\": \"色彩偏差\",\n            \"component\": \"第一张订单卡-商品图容器\",\n            \"design\": \"容器为浅紫色实底、无描边、12px圆角\",\n            \"impl\": \"容器为白色底、带灰色虚线描边、12px圆角\",\n            \"severity\": \"P1\",\n            \"color_design\": \"#ECEBFC\",\n            \"color_impl\": \"底色#FFFFFF，描边#D1D1D6\",\n            \"fix_suggestion\": \"移除容器虚线描边，将容器底色修改为浅紫色#ECEBFC，保留现有圆角规格\"\n        },\n        {\n            \"id\": 3,\n            \"type\": \"字重错误\",\n            \"component\": \"第一张订单卡-底部实付金额\",\n            \"design\": \"实付金额¥1,299为15px/600字重、主文字黑色\",\n            \"impl\": \"实付金额¥1,299为15px/400字重、次要文字灰色\",\n            \"severity\": \"P1\",\n            \"color_design\": \"#1D1D1F\",\n            \"color_impl\": \"#6E6E73\",\n            \"fix_suggestion\": \"将实付金额字重调整为600，颜色修改为主文字色#1D1D1F，与前方辅助说明文字拉开层级\"\n        },\n        {\n            \"id\": 4,\n            \"type\": \"色彩偏差\",\n            \"component\": \"第二张订单卡-商品图容器\",\n            \"design\": \"容器为浅紫色实底、无描边、12px圆角\",\n            \"impl\": \"容器为白色底、带灰色虚线描边、12px圆角\",\n            \"severity\": \"P1\",\n            \"color_design\": \"#ECEBFC\",\n            \"color_impl\": \"底色#FFFFFF，描边#D1D1D6\",\n            \"fix_suggestion\": \"移除容器虚线描边，将容器底色修改为浅紫色#ECEBFC，保留现有圆角规格\"\n        },\n        {\n            \"id\": 5,\n            \"type\": \"字重错误\",\n            \"component\": \"第二张订单卡-底部实付金额\",\n            \"design\": \"实付金额¥499为15px/600字重、主文字黑色\",\n            \"impl\": \"实付金额¥499为15px/400字重、次要文字灰色\",\n            \"severity\": \"P1\",\n            \"color_design\": \"#1D1D1F\",\n            \"color_impl\": \"#6E6E73\",\n            \"fix_suggestion\": \"将实付金额字重调整为600，颜色修改为主文字色#1D1D1F，与前方辅助说明文字拉开层级\"\n        },\n        {\n            \"id\": 6,\n            \"type\": \"圆角偏差\",\n            \"component\": \"全局订单卡片\",\n            \"design\": \"订单卡片圆角为12px\",\n            \"impl\": \"订单卡片圆角约为6px，弧度小于设计\",\n            \"severity\": \"P1\",\n            \"color_design\": null,\n            \"color_impl\": null,\n            \"fix_suggestion\": \"将所有订单卡片的圆角统一调整为设计要求的12px\"\n        },\n        {\n            \"id\": 7,\n            \"type\": \"色彩偏差\",\n            \"component\": \"底部Tab栏-选中态「首页」项\",\n            \"design\": \"选中态图标、文字为品牌主紫色\",\n            \"impl\": \"选中态图标、文字为亮蓝色\",\n            \"severity\": \"P0\",\n            \"color_design\": \"#534AB7\",\n            \"color_impl\": \"#3A86FF\",\n            \"fix_suggestion\": \"将选中态首页图标、文字颜色统一修改为品牌主色#534AB7\"\n        },\n        {\n            \"id\": 8,\n            \"type\": \"安全区问题\",\n            \"component\": \"底部Tab栏\",\n            \"design\": \"Tab文字底部距屏幕底边有约34px全面屏安全留白，无紧贴问题\",\n            \"impl\": \"Tab文字底部距屏幕底边仅约12px留白，安全区留白不足\",\n            \"severity\": \"P0\",\n            \"color_design\": null,\n            \"color_impl\": null,\n            \"fix_suggestion\": \"调整Tab栏底部布局，增加不小于34px的全面屏安全区留白，避免内容紧贴屏幕底边\"\n        }\n    ],\n    \"not_found_areas\": [\n        \"状态栏时间/网络标识、导航栏返回箭头尺寸、页面标题「我的订单」内容与样式完全一致\",\n        \"第一张订单卡的订单号、商品名称/规格文字、右上角单价样式、「申请开票」按钮样式无差异\",\n        \"第二张订单卡的「待收货」状态标签颜色、订单号、商品名称/规格文字、右上角单价样式、「查看物流」按钮样式无差异\",\n        \"订单卡片内边距、两张卡片之间的间距无差异\",\n        \"底部Tab栏的图标/文字内容、布局结构、未选中项颜色无差异\",\n        \"所有可点击元素（返回按钮、操作按钮、Tab项）的触控热区均不小于44x44pt，符合触控要求\"\n    ],\n    \"confidence_note\": \"所有差异均为截图明确可见的还原偏差，无模糊不确定项\"\n}"
+}

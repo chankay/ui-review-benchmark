@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>测试素材 3 — 移动端布局页</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", sans-serif; background: #F5F5F7; padding: 32px; color: #1D1D1F; }
+  h1 { font-size: 20px; margin-bottom: 8px; }
+  .desc { font-size: 13px; color: #6E6E73; margin-bottom: 24px; }
+  .stage { display: flex; gap: 80px; }
+  .panel { width: 375px; }
+  .panel-label { font-size: 14px; font-weight: 600; margin-bottom: 10px; padding: 8px 12px; border-radius: 8px; display: inline-block; }
+  .label-design { background: #E8F5E9; color: #2E7D32; }
+  .label-impl { background: #FDECEA; color: #C0392B; }
+  .phone { width: 375px; height: 620px; border-radius: 24px; overflow: hidden; border: 1px solid #D2D2D7; background: #FFFFFF; display: flex; flex-direction: column; }
+
+  /* ===== 基准 ===== */
+  .m-status { padding: 8px 20px; display: flex; justify-content: space-between; font-size: 12px; color: #1D1D1F; font-weight: 600; }
+  .m-nav { padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #F0F0F2; }
+  .m-back { font-size: 20px; color: #1D1D1F; }
+  .m-nav-title { font-size: 16px; font-weight: 600; }
+  .m-body { flex: 1; padding: 16px 20px; overflow: hidden; }
+  .order-card { border: 1px solid #E5E5EA; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .order-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .order-no { font-size: 13px; color: #6E6E73; }
+  .order-status { font-size: 12px; font-weight: 500; }
+  .st-done { color: #30B15C; }
+  .st-pending { color: #BA7517; }
+  .goods { display: flex; gap: 12px; align-items: center; }
+  .goods-img { width: 56px; height: 56px; border-radius: 8px; background: #EEEDFE; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .goods-info { flex: 1; }
+  .goods-name { font-size: 14px; color: #1D1D1F; margin-bottom: 4px; }
+  .goods-spec { font-size: 12px; color: #86868B; }
+  .goods-price { font-size: 14px; font-weight: 600; color: #1D1D1F; }
+  .order-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid #F0F0F2; }
+  .order-total { font-size: 13px; color: #6E6E73; }
+  .order-total b { font-size: 15px; color: #1D1D1F; }
+  .btn-ghost { font-size: 13px; padding: 6px 14px; border: 1px solid #D2D2D7; border-radius: 999px; background: #FFFFFF; color: #3A3A3C; }
+  .m-tabbar { padding: 10px 0 24px; border-top: 1px solid #F0F0F2; display: flex; justify-content: space-around; }
+  .tab { font-size: 11px; color: #86868B; text-align: center; }
+  .tab.active { color: #534AB7; }
+  .tab-icon { display: block; font-size: 20px; margin-bottom: 2px; }
+
+  /* ===== 实现版：埋 7 处偏差 ===== */
+  /* 1 [P0] 底部 Tab 栏遮挡：安全区 padding 24px → 4px，内容紧贴底部（移动端 P0） */
+  .impl .m-tabbar { padding: 10px 0 4px; }
+  /* 2 [P1] 点击热区不足：返回按钮字号缩小 */
+  .impl .m-back { font-size: 14px; }
+  /* 3 [P1] 卡片圆角丢失：12px → 4px */
+  .impl .order-card { border-radius: 4px; }
+  /* 4 [P2] 商品图底色缺失：紫底变白底，占位图"消失" */
+  .impl .goods-img { background: #FFFFFF; border: 1px dashed #D2D2D7; }
+  /* 5 [P1] 价格层级丢失：总价数字未加粗放大 */
+  .impl .order-total b { font-size: 13px; font-weight: 400; }
+  /* 6 [P2] 选中 Tab 颜色错误：品牌紫 → 蓝色 */
+  .impl .tab.active { color: #3B82F6; }
+  /* 7 [P2] 状态色偏差：已完成绿 → 灰 */
+  .impl .st-done { color: #86868B; }
+
+  details { margin-top: 32px; background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 12px; padding: 20px 24px; max-width: 830px; }
+  summary { font-size: 15px; font-weight: 600; cursor: pointer; }
+  table.ans { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  .ans th, .ans td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #F0F0F2; }
+  .ans th { color: #6E6E73; font-weight: 500; }
+  .p0 { color: #C0392B; font-weight: 600; }
+  .p1 { color: #BA7517; font-weight: 600; }
+  .p2 { color: #5F5E5A; font-weight: 600; }
+  .tip { margin-top: 16px; font-size: 13px; color: #6E6E73; background: #F5F5F7; border-radius: 8px; padding: 12px 16px; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <h1>测试素材 3 — 移动端布局页（375px）</h1>
+  <p class="desc">本页考核点：移动端特有问题——安全区/热区/触控目标尺寸，以及组件样式一致性。埋点 7 处，答案见底部折叠区。</p>
+
+  <div class="stage">
+    <div class="panel">
+      <span class="panel-label label-design">设计稿（基准）</span>
+      <div class="phone design" id="design">
+        <div class="m-status"><span>9:41</span><span>5G ▮▮▮</span></div>
+        <div class="m-nav"><span class="m-back">‹</span><span class="m-nav-title">我的订单</span></div>
+        <div class="m-body">
+          <div class="order-card">
+            <div class="order-head"><span class="order-no">订单号 20260916001</span><span class="order-status st-done">已完成</span></div>
+            <div class="goods">
+              <div class="goods-img">📦</div>
+              <div class="goods-info">
+                <div class="goods-name">无线降噪耳机 Pro</div>
+                <div class="goods-spec">曜石黑 / 官方标配</div>
+              </div>
+              <div class="goods-price">¥1,299</div>
+            </div>
+            <div class="order-foot">
+              <span class="order-total">共 1 件，实付 <b>¥1,299</b></span>
+              <button class="btn-ghost">申请开票</button>
+            </div>
+          </div>
+          <div class="order-card">
+            <div class="order-head"><span class="order-no">订单号 20260915088</span><span class="order-status st-pending">待收货</span></div>
+            <div class="goods">
+              <div class="goods-img">⌨️</div>
+              <div class="goods-info">
+                <div class="goods-name">机械键盘 87 键</div>
+                <div class="goods-spec">白灰撞色 / 红轴</div>
+              </div>
+              <div class="goods-price">¥499</div>
+            </div>
+            <div class="order-foot">
+              <span class="order-total">共 1 件，实付 <b>¥499</b></span>
+              <button class="btn-ghost">查看物流</button>
+            </div>
+          </div>
+        </div>
+        <div class="m-tabbar">
+          <div class="tab active"><span class="tab-icon">⌂</span>首页</div>
+          <div class="tab"><span class="tab-icon">▦</span>分类</div>
+          <div class="tab"><span class="tab-icon">🛒</span>购物车</div>
+          <div class="tab"><span class="tab-icon">👤</span>我的</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <span class="panel-label label-impl">开发实现（待验收）</span>
+      <div class="phone impl" id="impl">
+        <div class="m-status"><span>9:41</span><span>5G ▮▮▮</span></div>
+        <div class="m-nav"><span class="m-back">‹</span><span class="m-nav-title">我的订单</span></div>
+        <div class="m-body">
+          <div class="order-card">
+            <div class="order-head"><span class="order-no">订单号 20260916001</span><span class="order-status st-done">已完成</span></div>
+            <div class="goods">
+              <div class="goods-img">📦</div>
+              <div class="goods-info">
+                <div class="goods-name">无线降噪耳机 Pro</div>
+                <div class="goods-spec">曜石黑 / 官方标配</div>
+              </div>
+              <div class="goods-price">¥1,299</div>
+            </div>
+            <div class="order-foot">
+              <span class="order-total">共 1 件，实付 <b>¥1,299</b></span>
+              <button class="btn-ghost">申请开票</button>
+            </div>
+          </div>
+          <div class="order-card">
+            <div class="order-head"><span class="order-no">订单号 20260915088</span><span class="order-status st-pending">待收货</span></div>
+            <div class="goods">
+              <div class="goods-img">⌨️</div>
+              <div class="goods-info">
+                <div class="goods-name">机械键盘 87 键</div>
+                <div class="goods-spec">白灰撞色 / 红轴</div>
+              </div>
+              <div class="goods-price">¥499</div>
+            </div>
+            <div class="order-foot">
+              <span class="order-total">共 1 件，实付 <b>¥499</b></span>
+              <button class="btn-ghost">查看物流</button>
+            </div>
+          </div>
+        </div>
+        <div class="m-tabbar">
+          <div class="tab active"><span class="tab-icon">⌂</span>首页</div>
+          <div class="tab"><span class="tab-icon">▦</span>分类</div>
+          <div class="tab"><span class="tab-icon">🛒</span>购物车</div>
+          <div class="tab"><span class="tab-icon">👤</span>我的</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <details>
+    <summary>埋点答案（点击展开 — 共 7 处偏差）</summary>
+    <table class="ans">
+      <tr><th>#</th><th>严重度</th><th>偏差类型</th><th>位置</th><th>设计稿</th><th>实现</th></tr>
+      <tr><td>1</td><td class="p0">P0</td><td>安全区缺失</td><td>底部 Tab 栏</td><td>底部留白 24px</td><td>4px，内容贴底（全面屏手势区冲突）</td></tr>
+      <tr><td>2</td><td class="p1">P1</td><td>触控热区不足</td><td>返回按钮</td><td>20px 字号（≈44px 热区）</td><td>14px，难以点中</td></tr>
+      <tr><td>3</td><td class="p1">P1</td><td>圆角丢失</td><td>订单卡片</td><td>12px</td><td>4px</td></tr>
+      <tr><td>4</td><td class="p1">P1</td><td>价格层级丢失</td><td>订单总价</td><td>15px 加粗</td><td>13px 常规字重</td></tr>
+      <tr><td>5</td><td class="p2">P2</td><td>占位图异常</td><td>商品图</td><td>紫色底</td><td>白底虚线框</td></tr>
+      <tr><td>6</td><td class="p2">P2</td><td>选中色错误</td><td>Tab 栏选中项</td><td>品牌紫 #534AB7</td><td>蓝色 #3B82F6</td></tr>
+      <tr><td>7</td><td class="p2">P2</td><td>状态色偏差</td><td>「已完成」标签</td><td>绿色</td><td>灰色</td></tr>
+    </table>
+    <div class="tip">
+      考核亮点：#1 安全区问题和 #2 触控热区问题是移动端特有的「经验型验收项」，设计规范里如果没写明，就看模型有没有真实的移动端 UI 知识储备——这是和纯像素对比拉开差距的第二处语义级考核点。
+    </div>
+  </details>
+</body>
+</html>

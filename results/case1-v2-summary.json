@@ -1,0 +1,42 @@
+{
+  "page1": {
+    "total_gt": 8,
+    "detected": 5,
+    "recall": "5/8",
+    "missed": [
+      "#6 列表分隔线丢失",
+      "#7 「进行中」badge 缺失",
+      "#8 输入框 focus 描边色错误（紫→红）"
+    ],
+    "false_positives": 0,
+    "fp_detail": [],
+    "tokens": 7175,
+    "elapsed_s": 62.5
+  },
+  "page2": {
+    "total_gt": 8,
+    "detected": 5,
+    "recall": "5/8",
+    "missed": [
+      "#1 涨跌语义色反转（涨绿跌红→涨红跌绿）",
+      "#3 表头字重 500→700",
+      "#6 筛选按钮描边丢失"
+    ],
+    "false_positives": 0,
+    "fp_detail": [],
+    "tokens": 14751,
+    "elapsed_s": 226.7
+  },
+  "page3": {
+    "total_gt": 7,
+    "detected": 6,
+    "recall": "6/7",
+    "missed": [
+      "#2 返回按钮触控热区不足"
+    ],
+    "false_positives": 0,
+    "fp_detail": [],
+    "tokens": 11724,
+    "elapsed_s": 174.6
+  }
+}

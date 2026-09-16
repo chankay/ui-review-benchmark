@@ -1,0 +1,38 @@
+{
+  "fixes": [
+    {
+      "issue_id": 1,
+      "css_selector": ".member-overview-card .primary-button",
+      "css_property": "background-color",
+      "css_value": "#534AB7"
+    },
+    {
+      "issue_id": 2,
+      "css_selector": ".member-overview-card__title::after",
+      "css_property": "content",
+      "css_value": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='64'%20height='24'%3E%3Ctitle%3E%E8%BF%9B%E8%A1%8C%E4%B8%AD%3C/title%3E%3Crect%20x='8'%20width='56'%20height='24'%20rx='999'%20fill='%23ECEAFC'/%3E%3Ctext%20x='36'%20y='16'%20text-anchor='middle'%20font-family='sans-serif'%20font-size='12'%20fill='%23534AB7'%3E%E8%BF%9B%E8%A1%8C%E4%B8%AD%3C/text%3E%3C/svg%3E\")"
+    },
+    {
+      "issue_id": 3,
+      "css_selector": ".member-overview-card__list-item + .member-overview-card__list-item",
+      "css_property": "border-top",
+      "css_value": "1px solid #E5E5EA"
+    },
+    {
+      "issue_id": 5,
+      "css_selector": ".page-header__subtitle",
+      "css_property": "color",
+      "css_value": "#86868B"
+    },
+    {
+      "issue_id": 6,
+      "css_selector": ".invite-card .form-tip",
+      "css_property": "color",
+      "css_value": "#86868B"
+    }
+  ],
+  "withheld": [
+    4
+  ],
+  "tokens": 11509
+}

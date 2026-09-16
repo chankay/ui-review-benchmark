@@ -1,0 +1,48 @@
+{
+  "page1": {
+    "total_gt": 8,
+    "detected": 4,
+    "recall": "4/8",
+    "missed": [
+      "#3 页面标题字重 600→400",
+      "#4 卡片内边距 24px→12px",
+      "#7 「进行中」badge 缺失",
+      "#8 输入框 focus 描边色错误（紫→红）"
+    ],
+    "false_positives": 0,
+    "fp_detail": [],
+    "tokens": 10035,
+    "elapsed_s": 154.1
+  },
+  "page2": {
+    "total_gt": 8,
+    "detected": 3,
+    "recall": "3/8",
+    "missed": [
+      "#1 涨跌语义色反转（涨绿跌红→涨红跌绿）",
+      "#3 表头字重 500→700",
+      "#5 「接近配额」标签底色丢失",
+      "#7 表格分隔线过亮 #2C2C2E→#48484A",
+      "#8 页脚文字对比度不足"
+    ],
+    "false_positives": 0,
+    "fp_detail": [],
+    "tokens": 8576,
+    "elapsed_s": 109.2
+  },
+  "page3": {
+    "total_gt": 7,
+    "detected": 3,
+    "recall": "3/7",
+    "missed": [
+      "#2 返回按钮触控热区不足",
+      "#4 订单总价层级丢失（未加粗放大）",
+      "#5 商品图占位底色缺失",
+      "#6 Tab 选中色 品牌紫→蓝"
+    ],
+    "false_positives": 0,
+    "fp_detail": [],
+    "tokens": 7045,
+    "elapsed_s": 76.9
+  }
+}

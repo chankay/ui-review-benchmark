@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.DS_Store
+shots/clean/page1-team-management-clean.html

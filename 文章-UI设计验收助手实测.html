@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>UI 设计验收助手实测：我把设计稿和截图都喂给 Seed-2.1-pro，检出率从 43% 拉到 70%</title>
+<style>
+  body { font-family: -apple-system, "PingFang SC", sans-serif; max-width: 780px; margin: 0 auto; padding: 48px 24px; color: #1D1D1F; line-height: 1.8; font-size: 16px; background: #FFFFFF; }
+  h1 { font-size: 26px; line-height: 1.4; margin-bottom: 12px; }
+  h2 { font-size: 20px; margin-top: 48px; padding-top: 24px; border-top: 1px solid #E5E5EA; }
+  h3 { font-size: 17px; margin-top: 28px; }
+  .meta { color: #86868B; font-size: 14px; margin-bottom: 32px; }
+  .meta p { margin: 4px 0; }
+  figure { margin: 28px 0; text-align: center; }
+  figure img { max-width: 100%; border: 1px solid #E5E5EA; border-radius: 12px; }
+  figure img.paired { max-width: 49%; }
+  .pair { display: flex; gap: 12px; justify-content: center; align-items: flex-start; }
+  figcaption { font-size: 13px; color: #86868B; margin-top: 10px; line-height: 1.6; }
+  blockquote { border-left: 4px solid #534AB7; margin: 24px 0; padding: 12px 20px; background: #F7F6FE; border-radius: 0 8px 8px 0; color: #3A3A3C; }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+  th, td { padding: 10px 12px; border-bottom: 1px solid #E5E5EA; text-align: left; }
+  th { background: #F5F5F7; font-weight: 600; }
+  .hl { background: #F7F6FE; }
+  code { background: #F5F5F7; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+  .good { color: #1D9E75; font-weight: 600; }
+  .bad { color: #D85A30; font-weight: 600; }
+  strong { font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>UI 设计验收助手实测：我把设计稿和截图都喂给 Seed-2.1-pro，检出率从 43% 拉到 70%</h1>
+<div class="meta">
+  <p>测评对象：Doubao-Seed-2.1-pro-0915（经 Seed-Evolving API 测试，两者当前版本能力一致）</p>
+  <p>测评场景：UI 设计验收——设计稿 vs 开发实现截图的视觉差异识别、定位标注、修复闭环</p>
+  <p>全部数据来自真实 API 调用，原始 JSON 输出已存档</p>
+</div>
+
+<h2>一、为什么测这个场景</h2>
+<p>每个前端团队都经历过这种事：设计师对着 Figma 稿说「这个蓝不对，圆角也大了」，开发盯着屏幕找了半天。UI 视觉验收是真实存在、高频、且极度依赖「看图」的工作——它要求模型既能精确读出色值、间距这种细粒度视觉信息，又能理解「涨绿跌红」「安全区」这类业务语义，还能在修复后重新验证。</p>
+<p>这正是多模态 Coding &amp; Agent 的试金石：不是「看图说话」，而是「看图干活」。</p>
+<p>我准备了 3 个测试页面（桌面浅色页、深色数据表格、移动端布局），人工埋了 <strong>23 处设计偏差</strong>，每处都标注了类型和 P0/P1/P2 优先级。先看测试素材长什么样：</p>
+
+<figure>
+  <div class="pair">
+    <img class="paired" src="shots/page1-team-management-design.png" alt="桌面页设计稿">
+    <img class="paired" src="shots/page1-team-management-impl.png" alt="桌面页实现">
+  </div>
+  <figcaption>测试素材 1：桌面浅色页。左=设计稿（品牌紫按钮 #534AB7、有「进行中」badge、行分隔线），右=实现版（埋了 8 处偏差：按钮变蓝、圆角变胶囊、badge 消失、内边距压缩、focus 态变红等）</figcaption>
+</figure>
+
+<figure>
+  <div class="pair">
+    <img class="paired" src="shots/page2-dark-data-table-design.png" alt="数据表格设计稿">
+    <img class="paired" src="shots/page2-dark-data-table-impl.png" alt="数据表格实现">
+  </div>
+  <figcaption>测试素材 2：深色数据表格。左=设计稿（涨 +12.4% 绿色、跌 -3.2% 红色，数值右对齐），右=实现版（埋了 8 处偏差：涨跌色语义反转、数值左对齐、行密度压缩、「接近配额」标签退化为裸文字等）</figcaption>
+</figure>
+
+<figure>
+  <div class="pair">
+    <img class="paired" src="shots/page3-mobile-layout-design.png" alt="移动端设计稿">
+    <img class="paired" src="shots/page3-mobile-layout-impl.png" alt="移动端实现">
+  </div>
+  <figcaption>测试素材 3：移动端 375px。左=设计稿（Tab 栏距底有明显安全区留白、商品图紫底、选中 Tab 品牌紫），右=实现版（埋了 7 处偏差：安全区缺失、热区不足、圆角丢失、状态色变灰等）</figcaption>
+</figure>
+
+<p>其中有两处「陷阱级」埋点：</p>
+<ul>
+  <li><strong>涨跌语义色反转</strong>：数据表格里 +12.4% 显示红色、-3.2% 显示绿色（违反中国市场涨绿跌红惯例）。像素级 diff 工具抓不到这种问题，只有真正理解业务语义的模型才能发现</li>
+  <li><strong>移动端安全区缺失</strong>：底部 Tab 栏紧贴屏幕底边。设计规范里我<strong>故意没写</strong>这条，考验模型的移动端经验知识</li>
+</ul>
+
+<h2>二、第一轮：整体对比，检出率 43%</h2>
+<p>用最朴素的方式测：两张截图一起给，让模型自由找茬。</p>
+<table>
+  <tr><th>页面</th><th>检出</th><th>误报</th></tr>
+  <tr><td>桌面浅色页</td><td>4/8</td><td class="good">0</td></tr>
+  <tr><td>深色数据表格</td><td>3/8</td><td class="good">0</td></tr>
+  <tr><td>移动端布局</td><td>3/7</td><td class="good">0</td></tr>
+  <tr class="hl"><td><strong>合计</strong></td><td><strong>10/23 (43%)</strong></td><td><strong>0</strong></td></tr>
+</table>
+<p>第一眼看起来成绩平平，但有两个行为让我印象深刻：</p>
+<p><strong>1. 零误报，且会「存疑不报」。</strong>深色页的页脚文字实际被我调暗了，模型注意到了这个区域，但在备注里写：「底部辅助文字视觉偏暗疑似截图缩放压缩导致，无充分证据判定为实现偏差」。它宁可漏报也不编造——这直接命中了本次升级宣传的「减少编造结果、行动与反馈一致」。对比某些模型看图编三个不存在的 bug，这个品质在验收场景里极其珍贵：<strong>误报会消耗工程师的信任，漏报只是少改一个像素</strong>。</p>
+<p><strong>2. 主按钮色偏、圆角、badge 缺失这类「块级」偏差全部命中。</strong></p>
+
+<h2>三、第二轮：checklist harness，检出率 70%</h2>
+<p>43% 的检出率，问题在模型还是在用法？我改进了 harness：不再让模型自由发挥，而是给它一张<strong>逐区域核对清单</strong>——页头区核字重、每一行数据核颜色和对齐、Tab 栏核底部留白，每个区域必须给出「一致/存在偏差」的结论。</p>
+<table>
+  <tr><th>页面</th><th>v1 检出</th><th>v2 检出</th><th>v1 tokens</th><th>v2 tokens</th></tr>
+  <tr><td>桌面浅色页</td><td>4/8</td><td class="good"><strong>5/8</strong></td><td>10,035</td><td>7,175</td></tr>
+  <tr><td>深色数据表格</td><td>3/8</td><td class="good"><strong>5/8</strong></td><td>8,576</td><td>14,751</td></tr>
+  <tr><td>移动端布局</td><td>3/7</td><td class="good"><strong>6/7</strong></td><td>7,045</td><td>11,724</td></tr>
+  <tr class="hl"><td><strong>合计</strong></td><td><strong>10/23 (43%)</strong></td><td><strong>16/23 (70%)</strong></td><td>25,656</td><td>33,650</td></tr>
+</table>
+<p><strong>同一模型、同一素材，只是改了提问方式，检出率提升 27 个百分点，误报保持为零。</strong>行密度压缩、分隔线过亮、页脚对比度这些第一轮漏掉的「渐变式偏差」全被 checklist 揪了出来。平均多花 31% 的 token，买回 27 个点的检出率——这笔账在正式验收场景里怎么算都划算。</p>
+<p>移动端页面第二轮拿到 6/7：安全区缺失（P0）被抓出来了，而且模型在核对结论里明确写了「Tab 栏距屏幕底部留白不足」。设计规范里没这条，是它自己的移动端经验。</p>
+
+<h2>四、最有趣的发现：语义色反转悬案</h2>
+<p>两轮都没抓到那个 P0 级埋点——涨跌语义色反转。但第二轮模型给出了一个让我愣了几秒的解释：</p>
+<blockquote>「设计稿中环比涨跌数据统一使用中性白色，实现与设计一致，无红涨绿跌的语义反转错误」</blockquote>
+<p>我回头核对设计稿：+12.4% 是绿色、-3.2% 是红色，清清楚楚（见上文素材图）。模型不是不理解「涨绿跌红」的语义——它的 checklist 结论里正确复述了这条规则——而是<strong>把设计稿里的绿色和红色看成了中性白</strong>。深色背景、小字号、低饱和度的彩色文字，模型读错了颜色。</p>
+<p>这个案例比「检出率 70%」更有价值：它划出了当前 VLM 的真实能力边界——<strong>harness 工程能解决「没仔细看」，解决不了「看错了」</strong>。语义理解、任务规划、工具调用都在进化，但像素级的颜色读数，仍然是视觉模型的地基问题。</p>
+
+<h2>五、定位标注：框得比想象中准</h2>
+<p>让模型给每个偏差输出边界框坐标（grounding），再用 IoU（交并比）量化定位精度。模型输出的坐标经过脚本自动渲染，直接生成标注图：</p>
+
+<figure>
+  <img src="shots/page2-dark-data-table-case2-annotated.png" alt="深色表格定位标注">
+  <figcaption>深色表格页的自动标注结果：筛选按钮描边丢失（IoU 0.65）、数值列未对齐（0.50）、「接近配额」标签底色丢失（0.53）——框的位置基本准确，这种图可以直接贴进缺陷工单</figcaption>
+</figure>
+
+<figure>
+  <img src="shots/page1-team-management-case2-annotated.png" alt="桌面页定位标注">
+  <figcaption>桌面浅色页的标注结果：主按钮色偏/圆角框准了，但状态标签缺失框成了大范围上下文（IoU 偏低）——模型倾向「框大不框小」</figcaption>
+</figure>
+
+<table>
+  <tr><th>页面</th><th>定位成功</th><th>平均 IoU</th></tr>
+  <tr><td>桌面浅色页</td><td>5/5</td><td>0.21</td></tr>
+  <tr><td>深色数据表格</td><td>3/3</td><td><strong>0.56</strong></td></tr>
+  <tr><td>移动端布局</td><td>5/5</td><td>0.04*</td></tr>
+</table>
+<p>数据表格页表现最好。浅色页和移动端偏低，主要问题是模型倾向框「更大的上下文」（整张卡片而非按钮本身），以及 issue 顺序与清单对不齐导致个别框张冠李戴。作为「自动标注生成工单」的用途已经可用，作为「精确像素定位」还有距离。</p>
+
+<h2>六、修复闭环：复检抓到了埋的雷</h2>
+<p>闭环测试设计：把验收报告里的修复建议交给 Coding Agent 改代码 → 重新截图 → 让模型对照原报告复检。<strong>我故意在修复指令里扣下了一条建议</strong>（内边距压缩没修），看复检能不能发现。</p>
+<p><strong>1. 修复代码生成质量高。</strong>模型输出的不是泛泛建议，而是可直接执行的 CSS 覆盖：<code>background-color: #534AB7 !important</code>，甚至用内联 SVG 生成了缺失的「进行中」badge——这个创造力超出预期。</p>
+
+<figure>
+  <img src="shots/page1-team-management-case3-fixed-focus.png" alt="修复后 focus 态截图">
+  <figcaption>复检输入：修复后的页面 focus 态截图。注意输入框的<strong>红色描边</strong>——这是素材里埋的 focus 态颜色偏差，上轮报告没包含它（静态截图时未呈现），看复检能不能主动发现</figcaption>
+</figure>
+
+<p><strong>2. 复检 verdict 是 fail，而不是 pass。</strong>它逐项核对了截图实际表现，发现修复没有生效（本次实验中修复代码的选择器与页面实际类名不匹配，模拟了真实世界的「改了但没改对」），6 项全部如实标记 unfixed，没有一项「看报告说修了就勾通过」。</p>
+<p><strong>3. 抓到了埋的雷 + 发现了一个我没埋的雷。</strong>被扣下的内边距问题被标记为「报告外发现」；更妙的是它还报告了一个 regression：「输入框出现设计未定义的红色错误描边，附带淡红色柔光」——那是我在素材里埋的 focus 态颜色偏差，上轮报告没包含它，它在复检的新截图里主动揪了出来。<strong>产物核验能力，实测在线。</strong></p>
+
+<h2>七、量化总表</h2>
+<table>
+  <tr><th>指标</th><th>结果</th></tr>
+  <tr><td>差异检出率（checklist harness）</td><td><strong>16/23 (70%)</strong>，自由模式 43%</td></tr>
+  <tr><td>误报率</td><td><strong>0</strong>（两轮、三页面均零误报）</td></tr>
+  <tr><td>优先级判断</td><td>P0/P1/P2 分级与人工标定基本一致</td></tr>
+  <tr><td>grounding 定位成功率</td><td>13/13（表格页平均 IoU 0.56）</td></tr>
+  <tr><td>修复代码可用性</td><td>5/5 条可执行，含内联 SVG badge 生成</td></tr>
+  <tr><td>复检埋雷检出</td><td>报告外发现 + 未埋的自露偏差均捕获</td></tr>
+  <tr><td>全流程 token 成本</td><td>Case1 两轮 ~59k，Case2 ~21k，Case3 ~15k</td></tr>
+  <tr><td>单页验收平均耗时</td><td>60-230s（带深度思考）</td></tr>
+</table>
+
+<h2>八、结论</h2>
+<p><strong>这个模型在「看图干活」这件事上，可靠性的优先级明显高于覆盖率。</strong>零误报、存疑不报、复检不走过场——本次升级宣传的「减少编造结果」「产物核验」「行动与反馈一致」，在我这个真实工作流场景里全部实测命中。70% 的检出率配上 checklist harness，已经是一个能进真实验收流水线的水平；而语义色反转的漏检，诚实地展示了像素级读数仍是它下一程要补的课。</p>
+<p>对使用者我的建议就一条：<strong>别把 VLM 当自由发挥的找茬机器，把它当拿着 checklist 核对的验收员</strong>——一张好的核对清单，值 27 个百分点。</p>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>测试素材 2 — 数据表格页（深色主题）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", sans-serif; background: #F5F5F7; padding: 32px; color: #1D1D1F; }
+  h1 { font-size: 20px; margin-bottom: 8px; }
+  .desc { font-size: 13px; color: #6E6E73; margin-bottom: 24px; }
+  .stage { display: flex; gap: 40px; }
+  .panel { width: 560px; }
+  .panel-label { font-size: 14px; font-weight: 600; margin-bottom: 10px; padding: 8px 12px; border-radius: 8px; display: inline-block; }
+  .label-design { background: #E8F5E9; color: #2E7D32; }
+  .label-impl { background: #FDECEA; color: #C0392B; }
+  .frame { width: 560px; border-radius: 12px; overflow: hidden; }
+
+  /* ===== 深色主题基准 ===== */
+  .frame.design { background: #1C1C1E; border: 1px solid #38383A; }
+  .d-header { padding: 18px 20px; border-bottom: 1px solid #2C2C2E; display: flex; justify-content: space-between; align-items: center; }
+  .d-title { font-size: 16px; font-weight: 600; color: #F5F5F7; }
+  .d-filter { font-size: 12px; color: #0A84FF; padding: 6px 12px; border: 1px solid #0A84FF; border-radius: 6px; }
+  table.data { width: 100%; border-collapse: collapse; }
+  .data th { font-size: 12px; color: #8E8E93; text-align: left; padding: 12px 20px; border-bottom: 1px solid #2C2C2E; font-weight: 500; }
+  .data td { font-size: 13px; color: #D1D1D6; padding: 12px 20px; border-bottom: 1px solid #2C2C2E; }
+  .num { font-variant-numeric: tabular-nums; text-align: right; }
+  th.num { text-align: right; }
+  .up { color: #30D158; }
+  .down { color: #FF453A; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 500; }
+  .tag-ok { background: rgba(48,209,88,0.15); color: #30D158; }
+  .tag-warn { background: rgba(255,159,10,0.15); color: #FF9F0A; }
+  .tag-err { background: rgba(255,69,58,0.15); color: #FF453A; }
+  .d-footer { padding: 14px 20px; font-size: 12px; color: #8E8E93; display: flex; justify-content: space-between; }
+
+  /* ===== 实现版：埋 8 处偏差 ===== */
+  .frame.impl { background: #1C1C1E; border: 1px solid #38383A; }
+  /* 1 [P0] 语义色反转：涨跌色搞反（数据表格 P0，直接误导） */
+  .impl .up { color: #FF453A; }
+  .impl .down { color: #30D158; }
+  /* 2 [P1] 表头字重过粗：500 → 700，视觉层级失衡 */
+  .impl .data th { font-size: 12px; color: #8E8E93; text-align: left; padding: 12px 20px; border-bottom: 1px solid #2C2C2E; font-weight: 700; }
+  /* 3 [P1] 行内边距压缩：12px → 6px，行密度过高 */
+  .impl .data td { font-size: 13px; color: #D1D1D6; padding: 6px 20px; border-bottom: 1px solid #2C2C2E; }
+  /* 4 [P2] 行分隔线颜色过亮：#2C2C2E → #48484A，喧宾夺主 */
+  .impl .data td { border-bottom: 1px solid #48484A; }
+  /* 5 [P1] 状态标签样式丢失：warn 标签退化为纯文字色 */
+  .impl .tag-warn { background: transparent; color: #FF9F0A; padding: 0; }
+  /* 6 [P2] 筛选按钮描边丢失 */
+  .impl .d-filter { font-size: 12px; color: #0A84FF; padding: 6px 12px; border: none; border-radius: 6px; }
+  /* 7 [P0] 数字未对齐：右对齐丢失（tabular 数据 P0 可读性问题） */
+  .impl .num { font-variant-numeric: normal; text-align: left; }
+  .impl th.num { text-align: left; }
+  /* 8 [P2] 页脚统计文字颜色过暗，对比度不足 */
+  .impl .d-footer { color: #48484A; }
+
+  details { margin-top: 32px; max-width: 1160px; background: #FFFFFF; border: 1px solid #E5E5EA; border-radius: 12px; padding: 20px 24px; }
+  summary { font-size: 15px; font-weight: 600; cursor: pointer; }
+  table.ans { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  .ans th, .ans td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #F0F0F2; }
+  .ans th { color: #6E6E73; font-weight: 500; }
+  .p0 { color: #C0392B; font-weight: 600; }
+  .p1 { color: #BA7517; font-weight: 600; }
+  .p2 { color: #5F5E5A; font-weight: 600; }
+  .tip { margin-top: 16px; font-size: 13px; color: #6E6E73; background: #F5F5F7; border-radius: 8px; padding: 12px 16px; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <h1>测试素材 2 — 数据表格页（深色主题）</h1>
+  <p class="desc">本页考核点：语义色正确性（涨跌）、数字对齐、行密度、深色主题下的对比度。埋点 8 处，答案见底部折叠区。</p>
+
+  <div class="stage">
+    <div class="panel">
+      <span class="panel-label label-design">设计稿（基准）</span>
+      <div class="frame design" id="design">
+        <div class="d-header">
+          <div class="d-title">算力资源用量</div>
+          <div class="d-filter">筛选：近 7 天 ▾</div>
+        </div>
+        <table class="data">
+          <tr><th>资源组</th><th class="num">用量 (GPU·时)</th><th class="num">环比</th><th>状态</th></tr>
+          <tr><td>训练 A 组</td><td class="num">48,236</td><td class="num up">+12.4%</td><td><span class="tag tag-ok">正常</span></td></tr>
+          <tr><td>训练 B 组</td><td class="num">31,902</td><td class="num down">-3.2%</td><td><span class="tag tag-ok">正常</span></td></tr>
+          <tr><td>推理服务</td><td class="num">22,150</td><td class="num up">+8.7%</td><td><span class="tag tag-warn">接近配额</span></td></tr>
+          <tr><td>数据处理</td><td class="num">9,884</td><td class="num down">-15.6%</td><td><span class="tag tag-err">超配额</span></td></tr>
+        </table>
+        <div class="d-footer"><span>共 4 个资源组</span><span>更新于 10:12</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <span class="panel-label label-impl">开发实现（待验收）</span>
+      <div class="frame impl" id="impl">
+        <div class="d-header">
+          <div class="d-title">算力资源用量</div>
+          <div class="d-filter">筛选：近 7 天 ▾</div>
+        </div>
+        <table class="data">
+          <tr><th>资源组</th><th class="num">用量 (GPU·时)</th><th class="num">环比</th><th>状态</th></tr>
+          <tr><td>训练 A 组</td><td class="num">48,236</td><td class="num up">+12.4%</td><td><span class="tag tag-ok">正常</span></td></tr>
+          <tr><td>训练 B 组</td><td class="num">31,902</td><td class="num down">-3.2%</td><td><span class="tag tag-ok">正常</span></td></tr>
+          <tr><td>推理服务</td><td class="num">22,150</td><td class="num up">+8.7%</td><td><span class="tag tag-warn">接近配额</span></td></tr>
+          <tr><td>数据处理</td><td class="num">9,884</td><td class="num down">-15.6%</td><td><span class="tag tag-err">超配额</span></td></tr>
+        </table>
+        <div class="d-footer"><span>共 4 个资源组</span><span>更新于 10:12</span></div>
+      </div>
+    </div>
+  </div>
+
+  <details>
+    <summary>埋点答案（点击展开 — 共 8 处偏差）</summary>
+    <table class="ans">
+      <tr><th>#</th><th>严重度</th><th>偏差类型</th><th>位置</th><th>设计稿</th><th>实现</th></tr>
+      <tr><td>1</td><td class="p0">P0</td><td>语义色反转</td><td>环比涨跌色</td><td>涨绿 / 跌红</td><td>涨红 / 跌绿（颠倒）</td></tr>
+      <tr><td>2</td><td class="p0">P0</td><td>对齐错误</td><td>数值列</td><td>右对齐 + tabular-nums</td><td>左对齐</td></tr>
+      <tr><td>3</td><td class="p1">P1</td><td>字重过粗</td><td>表头</td><td>500</td><td>700，视觉层级失衡</td></tr>
+      <tr><td>4</td><td class="p1">P1</td><td>行密度过高</td><td>表格行内边距</td><td>12px</td><td>6px</td></tr>
+      <tr><td>5</td><td class="p1">P1</td><td>标签样式丢失</td><td>「接近配额」标签</td><td>橙色底胶囊</td><td>裸文字</td></tr>
+      <tr><td>6</td><td class="p2">P2</td><td>描边丢失</td><td>筛选按钮</td><td>蓝色描边</td><td>无描边</td></tr>
+      <tr><td>7</td><td class="p2">P2</td><td>分隔线过亮</td><td>表格行分隔线</td><td>#2C2C2E</td><td>#48484A，喧宾夺主</td></tr>
+      <tr><td>8</td><td class="p2">P2</td><td>对比度不足</td><td>页脚文字</td><td>#8E8E93</td><td>#48484A，接近不可读</td></tr>
+    </table>
+    <div class="tip">
+      考核亮点：#1 语义色反转要求模型理解「涨绿跌红」的业务语义（中国市场惯例），而不只是发现"颜色和另一边不同"——纯像素 diff 工具抓不到这种问题，这是 VLM 的真正优势所在。
+    </div>
+  </details>
+</body>
+</html>
